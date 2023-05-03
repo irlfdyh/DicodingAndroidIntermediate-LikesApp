@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         binding.imageView.setImageBitmap(mBitmap)
 
         showFace()
+        showEyes()
     }
 
     private val halfOfWidth = (mBitmap.width / 2).toFloat()
@@ -45,6 +46,16 @@ class MainActivity : AppCompatActivity() {
 
         mPaint.color = ResourcesCompat.getColor(resources, R.color.yellow_right_skin, null)
         mCanvas.drawArc(face, 270f, 180f, false, mPaint)
+    }
+
+    private fun showEyes() {
+        mPaint.color = ResourcesCompat.getColor(resources, R.color.black, null)
+        mCanvas.drawCircle(halfOfWidth - 100f, halfOfHeight - 10f, 50f, mPaint)
+        mCanvas.drawCircle(halfOfWidth + 100f, halfOfHeight - 10f, 50f, mPaint)
+
+        mPaint.color = ResourcesCompat.getColor(resources, R.color.white, null)
+        mCanvas.drawCircle(halfOfWidth - 120f, halfOfHeight - 20f, 15f, mPaint)
+        mCanvas.drawCircle(halfOfWidth + 80f, halfOfHeight - 20f, 15f, mPaint)
     }
 
 }
