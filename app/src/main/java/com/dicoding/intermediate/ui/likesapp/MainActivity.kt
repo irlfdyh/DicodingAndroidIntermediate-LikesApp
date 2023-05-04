@@ -1,9 +1,6 @@
 package com.dicoding.intermediate.ui.likesapp
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.RectF
+import android.graphics.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.content.res.ResourcesCompat
@@ -25,9 +22,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.imageView.setImageBitmap(mBitmap)
+        showText()
 
-        showFace()
-        showEyes()
+        binding.like.setOnClickListener {
+            showFace()
+            showMouth(true)
+            showEyes()
+        }
+
+        binding.dislike.setOnClickListener {
+            showFace()
+            showMouth(false)
+            showEyes()
+        }
     }
 
     private val halfOfWidth = (mBitmap.width / 2).toFloat()
@@ -56,6 +63,42 @@ class MainActivity : AppCompatActivity() {
         mPaint.color = ResourcesCompat.getColor(resources, R.color.white, null)
         mCanvas.drawCircle(halfOfWidth - 120f, halfOfHeight - 20f, 15f, mPaint)
         mCanvas.drawCircle(halfOfWidth + 80f, halfOfHeight - 20f, 15f, mPaint)
+    }
+
+    private fun showMouth(isHappy: Boolean) {
+        if (isHappy) {
+            mPaint.color = ResourcesCompat.getColor(resources, R.color.black, null)
+            val lip = RectF(halfOfWidth - 200f, halfOfHeight - 100f, halfOfWidth + 200f, halfOfHeight + 400f)
+            mCanvas.drawArc(lip, 25f, 130f, false, mPaint)
+
+            mPaint.color = ResourcesCompat.getColor(resources, R.color.white, null)
+            val mouth = RectF(halfOfWidth - 180f, halfOfHeight, halfOfWidth + 180f, halfOfHeight + 380f)
+            mCanvas.drawArc(mouth, 25f, 130f, false, mPaint)
+        } else {
+            mPaint.color = ResourcesCompat.getColor(resources, R.color.black, null)
+            val lip = RectF(halfOfWidth - 200F, halfOfHeight + 250F, halfOfWidth + 200F, halfOfHeight + 350F)
+            mCanvas.drawArc(lip, 0F, -180F, false, mPaint)
+
+            mPaint.color = ResourcesCompat.getColor(resources, R.color.white, null)
+            val mouth = RectF(halfOfWidth - 180F, halfOfHeight + 260F, halfOfWidth + 180F, halfOfHeight + 330F)
+            mCanvas.drawArc(mouth, 0F, -180F, false, mPaint)
+        }
+    }
+
+    private val message = "Apakah kamu suka bermain?"
+
+    private fun showText() {
+        val mPaintText = Paint(Paint.FAKE_BOLD_TEXT_FLAG).apply {
+            textSize = 50f
+            color = ResourcesCompat.getColor(resources, R.color.black, null)
+        }
+
+        val mBounds = Rect()
+        mPaintText.getTextBounds(message, 0, message.length, mBounds)
+
+        val x = halfOfWidth - mBounds.centerX()
+        val y = 50f
+        mCanvas.drawText(message, x, y, mPaintText)
     }
 
 }
