@@ -25,15 +25,11 @@ class MainActivity : AppCompatActivity() {
         showText()
 
         binding.like.setOnClickListener {
-            showFace()
-            showMouth(true)
-            showEyes()
+            showObject(true)
         }
 
         binding.dislike.setOnClickListener {
-            showFace()
-            showMouth(false)
-            showEyes()
+           showObject(false)
         }
     }
 
@@ -44,6 +40,13 @@ class MainActivity : AppCompatActivity() {
     private val top = 250f
     private val right = mBitmap.width - left
     private val bottom = mBitmap.height.toFloat() - 50f
+
+    private fun showObject(isHappy: Boolean) {
+        showFace()
+        showMouth(isHappy)
+        showEyes()
+        showNoses()
+    }
 
     private fun showFace() {
         val face = RectF(left, top, right, bottom)
@@ -99,6 +102,12 @@ class MainActivity : AppCompatActivity() {
         val x = halfOfWidth - mBounds.centerX()
         val y = 50f
         mCanvas.drawText(message, x, y, mPaintText)
+    }
+
+    private fun showNoses() {
+        mPaint.color = ResourcesCompat.getColor(resources, R.color.black, null)
+        mCanvas.drawCircle(halfOfWidth - 40f, halfOfHeight + 140f, 15f, mPaint)
+        mCanvas.drawCircle(halfOfWidth + 40f, halfOfHeight + 140f, 15f, mPaint)
     }
 
 }
